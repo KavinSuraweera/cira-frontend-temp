@@ -1,9 +1,9 @@
 import React from 'react';
-import Header from "../../components/Header";
 import "./assets/css/Visualisation.css"
 import {BsFillPlayFill} from "react-icons/bs";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import {Input, InputAdornment, OutlinedInput, TextField} from "@mui/material";
+import Navbar from "../../components/Navbar/Navbar";
 
 
 const Visualisation = () => {
@@ -36,7 +36,7 @@ const Visualisation = () => {
                 <div className="px-5">
                     <div className="px-5">
                         <div>
-                            <Header/>
+
                         </div>
                         <div className="">
                             <div className="row   py-4 ">
