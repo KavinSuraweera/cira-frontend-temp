@@ -24,14 +24,14 @@ const Visualisation = () => {
 
     return (
         <>
-            <Gradient/>
+            {/*<Gradient/>*/}
 
             <div className="bg-primary col-12">
-                <div className="row bg-success">
+                <div className="row bg-success px-3 ">
                     <div className="bg-success col-6 p-2">
-                        <div className="bg-danger">
-                            a
-                        </div>
+<div className="bg-danger">
+    a
+</div>
                     </div>
                     <div className="bg-danger col-6 p-2">
                         <div className="bg-success">
