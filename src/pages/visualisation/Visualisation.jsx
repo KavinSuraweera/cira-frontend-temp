@@ -23,25 +23,27 @@ const Visualisation = () => {
     };
 
     return (
-        <>
+        <div className="w-100">
             {/*<Gradient/>*/}
 
-            <div className="bg-primary col-12">
-                <div className="row bg-success px-3 ">
-                    <div className="bg-success col-6 p-2">
-<div className="bg-danger">
-    a
-</div>
-                    </div>
-                    <div className="bg-danger col-6 p-2">
-                        <div className="bg-success">
-                            a
+            <div className="bg-primary col-12 w-100">
+                <div className="bg-success p-3">
+                    <div className="row bg-light p-2">
+                        <div className="col-6 bg-success p-2">
+                            <div className="bg-primary p-1">
+                                a
+                            </div>
+                        </div>
+                        <div className="col-6 bg-success p-2">
+                            <div className="bg-primary p-1">
+                                a
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </>
+        </div>
     );
 }
 
