@@ -22,3 +22,8 @@
     font-size: 14px;
     line-height: 19px;
 }
+
+.datepicker {
+    width: 100%;
+    height: 100%;
+}

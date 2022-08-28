@@ -4,7 +4,7 @@ const Gradient = () => {
     return(
 
             <div
-                className="position-fixed  h-100 w-10 top-0" style={{
+                className="position-fixed  h-100 w-100 top-0" style={{
                     height: "100px",
                     zIndex: "-100",
                     backgroundImage: "linear-gradient(45deg, #ffffff 0%, #FFEBE0 100%, #ffffff 100%",
