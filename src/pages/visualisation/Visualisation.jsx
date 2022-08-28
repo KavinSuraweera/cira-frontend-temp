@@ -351,8 +351,8 @@ const Visualisation = () => {
                             </div>
                         </div>
 
-                        <div className="col-6  p-2">
-                            <div className=" p-1 d-flex justify-content-center">
+                        <div className="col-6  p-2 justify-content-center">
+                            <div className=" p-1 d-flex justify-content-center ">
                                 <div className="bg-white col-10"
                                      style={{
                                          borderRadius: "22px",
@@ -372,12 +372,36 @@ const Visualisation = () => {
 
                                 </div>
 
-                                {/*    ---------- buttons ----------*/}
+                            </div>
+                            <div className=" row d-flex justify-content-between py-4 px-4">
+                                <div className="col-6 d-flex justify-content-between">
+                                    <button className="btn col m-2" style={{
+                                        backgroundColor:"#FEBDA0",
+                                        color:"#fff",
+                                        borderRadius:"13px"
+                                    }}>
+                                        Satellite
+                                    </button>
+                                    <button className="btn col m-2" style={{
+                                        backgroundColor:"#fff",
+                                        color:"#FEBDA0",
+                                        borderRadius:"13px",
+                                        boxShadow: "0px 4px 4px rgba(254, 189, 160, 0.2)"
+                                    }}>
+                                        Aircraft
+                                    </button>
 
-                                <div className="col-12">
-                                    <div className="row">
-                                        <dov ></dov>
-                                    </div>
+                                    <button className="btn col m-2" style={{
+                                        backgroundColor:"#fff",
+                                        color:"#FEBDA0",
+                                        borderRadius:"13px",
+                                        boxShadow: "0px 4px 4px rgba(254, 189, 160, 0.2)"
+                                    }}>
+                                        Aircraft
+                                    </button>
+                                </div>
+                                <div className="col-6">
+                                    <button className="col btn btn-dark"></button>
                                 </div>
                             </div>
                         </div>
