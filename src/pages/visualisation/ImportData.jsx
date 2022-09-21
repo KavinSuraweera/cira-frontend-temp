@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./assets/css/Visualisation.css"
 import GradientBlue from "../../components/Backgrounds/GradientBlue";
 import {GrLocation} from "react-icons/gr";
@@ -7,11 +7,12 @@ import Slider from '@mui/material/Slider';
 import {styled} from '@mui/material/styles';
 import "../../components/Backgrounds/themes.css"
 import axios from "axios";
+import "./assets/css/css.css"
 
 
 import {RiArrowDropDownLine, RiFileSearchLine} from "react-icons/ri";
 import {BsThreeDots} from "react-icons/bs";
-import {FiDownload} from "react-icons/fi";
+import {FiDownload, FiUpload} from "react-icons/fi";
 import {Audio, Grid, Rings, RevolvingDot} from 'react-loader-spinner'
 import {motion} from "framer-motion";
 import {IoIosArrowDropdown} from "react-icons/io";
@@ -22,7 +23,7 @@ function GrLocat() {
     return null;
 }
 
-const Visualisation = () => {
+const ImportData = () => {
 
     const URL = "";
 
@@ -32,8 +33,15 @@ const Visualisation = () => {
     const [isSelectingTelPosition, setIsSelectingTelPosition] = useState(true)
     const [visulizationText, setVisualizationText] = useState("Visualization")
 
+    // ----------------- import Data --------------- //
+
+    const [file1, setFile1] = useState(null);
+
+    // ----------------- End import Data --------------- //
+
+
     const [skyCoodinates, setSkyCoodinates] = useState({
-         value:"RA: 6h45m8. 9s Dec: -16°42'52.1",
+        value:"RA: 6h45m8. 9s Dec: -16°42'52.1",
     })
 
     const [values, setValues] = React.useState({
@@ -123,6 +131,25 @@ const Visualisation = () => {
 
 
 
+
+
+    /* ------------------- Data Handlers ------------------- */
+
+    const handleChaneFile1 = (e) => {
+        // setFile1(URL.createObjectURL(e.target.files[0]));
+        test(e);
+
+    }
+
+    const test = (e) => {
+        console.log(window.URL.createObjectURL(e.target.files[0]))
+    }
+
+    /* ------------------- End Data Handlers ------------------- */
+
+
+
+
     /* ------------------- API calls ------------------- */
 
     const visualise = () =>{
@@ -159,6 +186,10 @@ const Visualisation = () => {
 
     /* -----------------End API calls ------------------- */
 
+    useEffect(() => {
+        console.log("Log")
+    }, []);
+
 
     return (
         <div className="">
@@ -180,126 +211,43 @@ const Visualisation = () => {
                                                  color: "#1A1A1A"
                                              }}
                                         >
-                                            Sky Coordinates
+                                            Import Data
                                             <span className="mx-2 theme-lightBlue-text " style={{
                                                 fontWeight: "400",
                                                 fontSize: "14px",
                                             }}>
-                                             Origin of the visualisation
+                                               Import exported data
                                         </span>
                                         </div>
                                         <div className="row">
-                                            <div className="col-12 col-xl-8 m-0 ">
+                                            <div className="col-12 col-xl-8 m-0">
                                                 <motion.div
-                                                    transition={{duration: 0.5}}
-                                                    whileTap={{scale: 0.9}}
-                                                    className="bg-white theme-border"
-                                                    style={{
-                                                        borderRadius: "13px",
-                                                        minHeight: "53px"
-                                                    }}>
-                                                    <div>
-
-                                                        {isSelectingSkyCoodinates ?
-
-
-                                                            <motion.div
-                                                                className="btn btn-white row col-12 d-flex justify-content-between align-items-center input-group m-0 row  "
-                                                                style={{
-                                                                    borderRadius: "13px",
-                                                                    height: "51px"
-                                                                }}
-                                                                onClick={handleClickSkyCoodinates}
-                                                            >
-                                                                <div className="row">
-                                                                    <div
-                                                                        className="d-flex col align-items-center ">
-                                                                        <GrLocation/><span className="px-3"
-                                                                                           style={{float: "right"}}>Choose ...</span>
-
-                                                                    </div>
-                                                                    <div className="col-1 "
-                                                                         style={{width: "10px"}}>
-                                                                        <IoIosArrowDropdown/>
-                                                                    </div>
-                                                                </div>
-
-
-                                                            </motion.div>
-
-                                                            :
-
-                                                            /*------------------ make */
-                                                            <motion.div
-                                                                className="p-2"
-                                                                style={{
-                                                                    position: "",
-                                                                    maxHeight: "210px"
-                                                                }}
-                                                                initial={{height: "auto", }}
-                                                                animate={{height: "auto"}}
-                                                                onClick={handleClickSkyCoodinates}
-                                                            >
-                                                                <div className="" style={{
-                                                                    overflowX: "scroll"
-                                                                }}>
-                                                                    <div className="col-12">
-                                                                        <div className="row">
-                                                                            <div className="col-10">
-                                                                            <span style={{
-                                                                                opacity: "0.4"
-                                                                            }}> <GrLocation/></span>
-                                                                                <span className="px-2"
-                                                                                      style={{fontSize: "12px"}}>
-                                                                                    {skyCoodinates.value}
-                                                                                </span>
-                                                                            </div>
-                                                                            <div className="col-2 ">
-                                                                                <div
-                                                                                    className="col d-flex align-items-center"
-                                                                                    style={{fontSize: "14px"}}>SUN
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr/>
-                                                                </div>
-
-
-                                                                <div className="col ">
-                                                                    <div className="row  ">
-                                                                        <div
-                                                                            className="col-12 d-flex justify-content-end">
-                                                                            <motion.div
-                                                                                className="btn theme-border m-1"
-                                                                                style={{
-                                                                                    height: "36px"
-                                                                                }}>
-                                                                                Edit
-                                                                            </motion.div>
-                                                                            <motion.div
-                                                                                className="btn theme-lightBlue-button m-1 d-flex align-items-center"
-                                                                                style={{
-                                                                                    height: "36px"
-                                                                                }}>
-                                                                                <AiOutlinePlus/> <span className="ms-1">New Preset</span>
-                                                                            </motion.div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </motion.div>
-                                                        }
+                                                    whileHover={{backgroundColor:"#0088CA",borderColor:"#ffffff", color:"#ffffff"}}
+                                                    className="image-upload-wrap">
+                                                    <img src={file1} className="upload-image" alt="img"/>
+                                                    <input className="file-upload-input" type='file'
+                                                           accept="image/*"
+                                                           onChange={handleChaneFile1}/>
+                                                    <div className="drag-text">
+                                                        <h3>
+                                                            <div><FiUpload style={{fontSize: 30}}/></div>
+                                                            <br/>
+                                                            <p>Picture 3
+                                                                <br/>
+                                                                Drop files here to upload
+                                                            </p>
+                                                        </h3>
                                                     </div>
                                                 </motion.div>
                                             </div>
-                                            <div className="col-12 col-xl-4 my-2 my-xl-0">
+                                            <div className="col-12 col-xl-4 my-xl-0">
                                                 <motion.div className="btn btn-dark h-100 w-100 d-flex align-items-center justify-content-center"
                                                             whileTap={{scale:0.95}}
-                                                        style={{
-                                                            borderRadius: "13px",
-                                                            maxHeight: "53px"
-                                                        }}
-                                                        onClick={handleClickVisualise}
+                                                            style={{
+                                                                borderRadius: "13px",
+                                                                maxHeight: "53px",
+                                                            }}
+                                                            onClick={handleClickVisualise}
                                                 >
                                                     Visualise <span><AiFillCaretRight/></span>
                                                 </motion.div>
@@ -540,14 +488,14 @@ const Visualisation = () => {
                                                 <div className="p-2 col-12 col-md-6">
                                                     <motion.div className="btn btn-light col-12 d-flex align-items-center justify-content-center"
                                                                 whileTap = {{scale:0.95}}
-                                                            style={{
-                                                                backgroundColor: "#fff",
-                                                                borderStyle: "solid",
-                                                                borderColor: "#000",
-                                                                borderWidth: "1px",
-                                                                height: "53px",
-                                                                borderRadius: "13px"
-                                                            }}>
+                                                                style={{
+                                                                    backgroundColor: "#fff",
+                                                                    borderStyle: "solid",
+                                                                    borderColor: "#000",
+                                                                    borderWidth: "1px",
+                                                                    height: "53px",
+                                                                    borderRadius: "13px"
+                                                                }}>
                                                         <RiFileSearchLine/> Use Exported Data
                                                     </motion.div>
 
@@ -555,12 +503,12 @@ const Visualisation = () => {
                                                 <div className="p-2 col-12 col-md-6">
                                                     <motion.div type="button"
                                                                 whileTap={{scale:0.95}}
-                                                            className="btn theme-lightBlue-button dropdown-toggle col-12 d-flex align-items-center justify-content-center"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false"
-                                                            style={{
-                                                                height: "53px",
-                                                            }}
+                                                                className="btn theme-lightBlue-button dropdown-toggle col-12 d-flex align-items-center justify-content-center"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false"
+                                                                style={{
+                                                                    height: "53px",
+                                                                }}
                                                     >
                                                         <snap><BsThreeDots/> Advanced</snap>
                                                     </motion.div>
@@ -604,16 +552,16 @@ const Visualisation = () => {
                                                     :
                                                     <div>
                                                         {isErrorImageLoading?
-                                                                <div style={{
-                                                                    color:"red",
-                                                                    fontSize:"10px"
-                                                                }}>
-                                                                    {visulizationText}
-                                                                </div>
-                                                                :
-                                                                <div className="theme-lightBlue-text">
-                                                                    {visulizationText}
-                                                                </div>
+                                                            <div style={{
+                                                                color:"red",
+                                                                fontSize:"10px"
+                                                            }}>
+                                                                {visulizationText}
+                                                            </div>
+                                                            :
+                                                            <div className="theme-lightBlue-text">
+                                                                {visulizationText}
+                                                            </div>
                                                         }
 
                                                     </div>
@@ -668,4 +616,4 @@ const Visualisation = () => {
     );
 }
 
-export default Visualisation;
+export default ImportData;

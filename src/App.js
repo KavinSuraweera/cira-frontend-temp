@@ -6,6 +6,7 @@ import TestPage from "./pages/test/Test";
 import {createMuiTheme, ThemeProvider} from "@mui/material";
 import Navbar from "./components/Navbar/Navbar";
 import Help from "./pages/help/Help";
+import ImportData from "./pages/visualisation/ImportData";
 
 const yourCustomTheme = {
     MuiCardContent: {
@@ -28,8 +29,8 @@ const App = () => {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/new" element={<NewFile/>}/>
                     <Route path="/visualisation" element={<Visualisation/>}/>
-                    <Route path="/test" element={<TestPage/>}/>
                     <Route path="/help" element={<Help/>}/>
+                    <Route path="/import-data" element={<ImportData/>}/>
 
                 </Routes>
             </Router>
