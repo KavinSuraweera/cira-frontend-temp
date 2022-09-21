@@ -34,10 +34,9 @@ const Navbar = () => {
                             <span style={{fontSize: "40px", fontWeight: "400"}}>CIRA</span>
                         </div>
                         <div className="col-12">
-                            <span className="" style={{
+                            <span className="theme-lightBlue-text" style={{
                                 fontSize: "26px",
                                 fontWeight: "400",
-                                color: "#FEBDA0"
                             }}>EDA-2 Visualisation</span>
                         </div>
 

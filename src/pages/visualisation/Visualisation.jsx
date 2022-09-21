@@ -1,20 +1,21 @@
 import React, {useState} from 'react';
 import "./assets/css/Visualisation.css"
-import Gradient from "../../components/Backgrounds/Gradient";
+import GradientBlue from "../../components/Backgrounds/GradientBlue";
 import {GrLocation} from "react-icons/gr";
-import {AiFillCaretRight} from "react-icons/ai";
+import {AiFillCaretRight, AiOutlinePlus} from "react-icons/ai";
 import Slider from '@mui/material/Slider';
 import {styled} from '@mui/material/styles';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import ReactSlider from "react-slider";
+import "../../components/Backgrounds/themes.css"
+import axios from "axios";
 
-import Select from "react-select";
-import DatePicker from "react-multi-date-picker";
 
-import "react-datepicker/dist/react-datepicker.css";
-import {RiFileSearchLine} from "react-icons/ri";
+import {RiArrowDropDownLine, RiFileSearchLine} from "react-icons/ri";
 import {BsThreeDots} from "react-icons/bs";
+import {FiDownload} from "react-icons/fi";
+import {Audio, Grid, Rings, RevolvingDot} from 'react-loader-spinner'
+import {motion} from "framer-motion";
+import {IoIosArrowDropdown} from "react-icons/io";
+
 
 
 function GrLocat() {
@@ -23,7 +24,17 @@ function GrLocat() {
 
 const Visualisation = () => {
 
+    const URL = "";
+
     const [startDate, setStartDate] = useState(new Date());
+    const [isLoadingImage, setIsLoadingImage] = useState(false);
+    const [isSelectingSkyCoodinates, setIsSelectSkyCoodinates] = useState(true);
+    const [isSelectingTelPosition, setIsSelectingTelPosition] = useState(true)
+    const [visulizationText, setVisualizationText] = useState("Visualization")
+
+    const [skyCoodinates, setSkyCoodinates] = useState({
+         value:"RA: 6h45m8. 9s Dec: -16°42'52.1",
+    })
 
     const [values, setValues] = React.useState({
         amount: '', password: '', weight: '', weightRange: '', showPassword: false,
@@ -34,7 +45,7 @@ const Visualisation = () => {
     };
 
     const PrettoSlider = styled(Slider)({
-        color: '#FEBDA0',
+        color: '#000',
         height: 8,
         '& .MuiSlider-track': {
             border: 'none',
@@ -59,7 +70,7 @@ const Visualisation = () => {
             width: 32,
             height: 32,
             borderRadius: '50% 50% 50% 0',
-            backgroundColor: '#FEBDA0',
+            backgroundColor: '#000',
             transformOrigin: 'bottom left',
             transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
             '&:before': {display: 'none'},
@@ -73,17 +84,88 @@ const Visualisation = () => {
     });
 
 
-    // const [products, setProducts] = useState[2,3,2];
+
+    /* -------------------------- Error Messages -------------------------- */
+
+    const [isErrorImageLoading, setIsErrorImageLoading] = useState(false)
+
+    /* ----------------------- End Error Messages  ------------------------ */
+
+
+
+    /* -------------------------- handlers -------------------------- */
+
+    const handleClickVisualise = (e) => {
+        e.preventDefault()
+
+        visualise();
+    }
+
+    const handleClickSkyCoodinates = (e) => {
+        e.preventDefault()
+
+        if (!isSelectingSkyCoodinates) {
+            setIsSelectSkyCoodinates(true)
+        } else {
+            setIsSelectSkyCoodinates(false)
+        }
+    }
+
+    const handleClickTelPosition = (e) => {
+        e.preventDefault();
+
+        if (!isSelectingTelPosition) {
+            setIsSelectingTelPosition(true)
+        } else {
+            setIsSelectingTelPosition(false)
+        }
+    }
+
+
+
+    /* ------------------- API calls ------------------- */
+
+    const visualise = () =>{
+
+
+        console.log("vis");
+
+        setIsLoadingImage(true)
+
+        let visData = {
+            skyCoodinates : skyCoodinates.value,
+        }
+
+        axios
+            .post(URL+"", visData)
+            .then(response => {
+                setIsLoadingImage(false);
+
+                console.log(response.data);
+
+            })
+            .catch(error => {
+                setIsLoadingImage(false);
+
+                console.log(error.message);
+
+                setVisualizationText("Try Again ...")
+                setIsErrorImageLoading(true)
+
+            })
+    }
+
+    /* -----------------End API calls ------------------- */
 
 
     return (
         <div className="">
-            <Gradient/>
+            {/*<GradientBlue/>*/}
 
-            <div className="  ">
+            <div className=" px-0 px-lg-5">
                 <div className="px-5 " style={{width: "98%"}}>
-                    <div className="row  p-2 ">
-                        <div className="col-6  p-2">
+                    <div className="row p-0 p-md-2 ">
+                        <div className="col-12 col-lg-5 p-2">
                             <div className=" p-1">
                                 <form>
 
@@ -97,62 +179,128 @@ const Visualisation = () => {
                                              }}
                                         >
                                             Sky Coordinates
-                                            <span className="mx-2" style={{
+                                            <span className="mx-2 theme-lightBlue-text " style={{
                                                 fontWeight: "400",
                                                 fontSize: "14px",
-                                                color: "#FEBDA0"
                                             }}>
                                              Origin of the visualisation
                                         </span>
                                         </div>
                                         <div className="row">
-                                            <div className="col-9 m-0 ">
-                                                <div className="bg-white "
-                                                     style={{
-                                                         borderRadius: "13px",
-                                                         boxShadow: "0px 4px 10px rgba(254, 189, 160, 0.2)"
-                                                     }}>
-                                                    <div className="input-group m-0 row">
-                                                        <div
-                                                            className="input-group-prepend col-1 d-flex align-items-center justify-content-center"
-                                                            style={{height: "53px"}}>
-                                                            <label className=""
-                                                                   htmlFor=""><GrLocation/></label>
-                                                        </div>
-                                                        <select className="form-select m-0 col-11"
-                                                                id="inputGroupSelect01"
+                                            <div className="col-12 col-xl-8 m-0 ">
+                                                <motion.div
+                                                    transition={{duration: 0.5}}
+                                                    whileTap={{scale: 0.9}}
+                                                    className="bg-white theme-border"
+                                                    style={{
+                                                        borderRadius: "13px",
+                                                        minHeight: "53px"
+                                                    }}>
+                                                    <div>
+
+                                                        {isSelectingSkyCoodinates ?
+
+
+                                                            <motion.div
+                                                                className="btn btn-white row col-12 d-flex justify-content-between align-items-center input-group m-0 row  "
                                                                 style={{
-                                                                    borderStyle: "solid",
-                                                                    borderWidth: "0",
-                                                                    borderRadius: "13px"
+                                                                    borderRadius: "13px",
+                                                                    height: "51px"
+                                                                }}
+                                                                onClick={handleClickSkyCoodinates}
+                                                            >
+                                                                <div className="row">
+                                                                    <div
+                                                                        className="d-flex col align-items-center ">
+                                                                        <GrLocation/><span className="px-3"
+                                                                                           style={{float: "right"}}>Choose ...</span>
+
+                                                                    </div>
+                                                                    <div className="col-1 "
+                                                                         style={{width: "10px"}}>
+                                                                        <IoIosArrowDropdown/>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </motion.div>
+
+                                                            :
+
+                                                            /*------------------ make */
+                                                            <motion.div
+                                                                className="p-2"
+                                                                style={{
+                                                                    position: "",
+                                                                    maxHeight: "210px"
+                                                                }}
+                                                                initial={{height: "auto", }}
+                                                                animate={{height: "auto"}}
+                                                                onClick={handleClickSkyCoodinates}
+                                                            >
+                                                                <div className="" style={{
+                                                                    overflowX: "scroll"
                                                                 }}>
-                                                            <option selected>Choose...</option>
-                                                            <option value="1">One</option>
-                                                            <option value="2">Two</option>
-                                                            <option value="3">Three</option>
-                                                        </select>
-                                                        {/*<Select*/}
-                                                        {/*    className="basic-single"*/}
-                                                        {/*    classNamePrefix="select"*/}
-                                                        {/*    // defaultValue={colourOptions[0]}*/}
-                                                        {/*    // isDisabled={isDisabled}*/}
-                                                        {/*    // isLoading={isLoading}*/}
-                                                        {/*    // isClearable={isClearable}*/}
-                                                        {/*    // isRtl={isRtl}*/}
-                                                        {/*    // isSearchable={isSearchable}*/}
-                                                        {/*    name="color"*/}
-                                                        {/*    // options={colourOptions}*/}
-                                                        {/*/>*/}
+                                                                    <div className="col-12">
+                                                                        <div className="row">
+                                                                            <div className="col-10">
+                                                                            <span style={{
+                                                                                opacity: "0.4"
+                                                                            }}> <GrLocation/></span>
+                                                                                <span className="px-2"
+                                                                                      style={{fontSize: "12px"}}>
+                                                                                    {skyCoodinates.value}
+                                                                                </span>
+                                                                            </div>
+                                                                            <div className="col-2 ">
+                                                                                <div
+                                                                                    className="col d-flex align-items-center"
+                                                                                    style={{fontSize: "14px"}}>SUN
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr/>
+                                                                </div>
+
+
+                                                                <div className="col ">
+                                                                    <div className="row  ">
+                                                                        <div
+                                                                            className="col-12 d-flex justify-content-end">
+                                                                            <motion.div
+                                                                                className="btn theme-border m-1"
+                                                                                style={{
+                                                                                    height: "36px"
+                                                                                }}>
+                                                                                Edit
+                                                                            </motion.div>
+                                                                            <motion.div
+                                                                                className="btn theme-lightBlue-button m-1 d-flex align-items-center"
+                                                                                style={{
+                                                                                    height: "36px"
+                                                                                }}>
+                                                                                <AiOutlinePlus/> <span className="ms-1">New Preset</span>
+                                                                            </motion.div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </motion.div>
+                                                        }
                                                     </div>
-                                                </div>
+                                                </motion.div>
                                             </div>
-                                            <div className="col-3 ">
-                                                <button className="btn btn-dark h-100 w-100"
+                                            <div className="col-12 col-xl-4 my-2 my-xl-0">
+                                                <motion.div className="btn btn-dark h-100 w-100 d-flex align-items-center justify-content-center"
+                                                            whileTap={{scale:0.95}}
                                                         style={{
-                                                            borderRadius: "13px"
-                                                        }}>
+                                                            borderRadius: "13px",
+                                                            maxHeight: "53px"
+                                                        }}
+                                                        onClick={handleClickVisualise}
+                                                >
                                                     Visualise <span><AiFillCaretRight/></span>
-                                                </button>
+                                                </motion.div>
                                             </div>
                                         </div>
                                     </div>
@@ -168,10 +316,9 @@ const Visualisation = () => {
                                              }}
                                         >
                                             Telescope Position
-                                            <span className="mx-2" style={{
+                                            <span className="mx-2 theme-lightBlue-text" style={{
                                                 fontWeight: "400",
                                                 fontSize: "14px",
-                                                color: "#FEBDA0"
                                             }}>
                                                Location of the array
                                         </span>
@@ -181,33 +328,112 @@ const Visualisation = () => {
                                                  borderRadius: "13px",
                                                  boxShadow: "0px 4px 10px rgba(254, 189, 160, 0.2)"
                                              }}>
-                                            <div className="input-group m-0 row">
-                                                <div
-                                                    className="input-group-prepend col-1 d-flex align-items-center justify-content-center"
-                                                    style={{height: "53px"}}>
-                                                    <label className=""
-                                                           htmlFor=""><GrLocation/></label>
-                                                </div>
-                                                <select className="form-select m-0 col-11 p-2" id="inputGroupSelect01"
-                                                        style={{
-                                                            borderStyle: "solid",
-                                                            borderWidth: "0",
-                                                            borderRadius: "13px"
-                                                        }}>
-                                                    <option selected>Choose...</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                            <motion.div
+                                                transition={{duration: 0.5}}
+                                                whileTap={{scale: 0.9}}
+                                                className="bg-white theme-border"
+                                                style={{
+                                                    borderRadius: "13px",
+                                                    minHeight: "53px"
+                                                }}>
+                                                <div>
 
-                                                </select>
-                                            </div>
+                                                    {isSelectingTelPosition ?
+
+
+                                                        <motion.div
+                                                            className="btn btn-white row col-12 d-flex justify-content-between align-items-center input-group m-0 row  "
+                                                            style={{
+                                                                borderRadius: "13px",
+                                                                height: "51px"
+                                                            }}
+                                                            onClick={handleClickTelPosition}
+                                                        >
+                                                            <div className="row">
+                                                                <div
+                                                                    className="d-flex col align-items-center ">
+                                                                    <GrLocation/><span className="px-3"
+                                                                                       style={{float: "right"}}>Choose ...</span>
+
+                                                                </div>
+                                                                <div className="col-1 "
+                                                                     style={{width: "10px"}}>
+                                                                    <IoIosArrowDropdown/>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </motion.div>
+
+                                                        :
+
+                                                        /*------------------ make */
+                                                        <motion.div
+                                                            className="p-2"
+                                                            style={{
+                                                                position: "",
+                                                                maxHeight: "210px"
+                                                            }}
+                                                            initial={{height: "auto"}}
+                                                            animate={{height: "auto"}}
+                                                            onClick={handleClickTelPosition}
+                                                        >
+                                                            <div className="" style={{
+                                                                overflowX: "scroll"
+                                                            }}>
+                                                                <div className="col-12">
+                                                                    <div className="row">
+                                                                        <motion.div className="col-10">
+                                                                            <span style={{
+                                                                                opacity: "0.4"
+                                                                            }}> <GrLocation/></span>
+                                                                            <span className="px-2"
+                                                                                  style={{fontSize: "12px"}}>RA: 6h45m8. 9s Dec: -16°42'52.1</span>
+                                                                        </motion.div>
+                                                                        <div className="col-2 ">
+                                                                            <div
+                                                                                className="col d-flex align-items-center"
+                                                                                style={{fontSize: "14px"}}>SUN
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr/>
+                                                            </div>
+
+
+                                                            <div className="col ">
+                                                                <div className="row  ">
+                                                                    <div
+                                                                        className="col-12 d-flex justify-content-end">
+                                                                        <motion.div
+                                                                            className="btn theme-border m-1"
+                                                                            style={{
+                                                                                height: "36px"
+                                                                            }}>
+                                                                            Edit
+                                                                        </motion.div>
+                                                                        <motion.div
+                                                                            className="btn theme-lightBlue-button m-1 d-flex align-items-center"
+                                                                            style={{
+                                                                                height: "36px"
+                                                                            }}>
+                                                                            <AiOutlinePlus/> <span className="ms-1">New Preset</span>
+                                                                        </motion.div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </motion.div>
+                                                    }
+                                                </div>
+                                            </motion.div>
                                         </div>
                                     </div>
                                     {/* --------- input row 3-----------*/}
 
                                     <div className="col-12 my-5">
                                         <div className="row">
-                                            <div className="col-6 ">
+                                            <div className="col-12 col-md-6 ">
                                                 <div className="my-2"
                                                      style={{
                                                          fontWeight: "600",
@@ -215,14 +441,10 @@ const Visualisation = () => {
                                                          color: "#1A1A1A"
                                                      }}
                                                 >
-                                                    Start Date
+                                                    Start Time
                                                 </div>
 
-                                                <div className="bg-white"
-                                                     style={{
-                                                         borderRadius: "13px",
-                                                         boxShadow: "0px 4px 10px rgba(254, 189, 160, 0.2)"
-                                                     }}>
+                                                <div className="bg-white theme-border">
                                                     <div className="input-group m-0 row">
                                                         <div
                                                             className="input-group-prepend col-1 d-flex align-items-center justify-content-center"
@@ -231,10 +453,10 @@ const Visualisation = () => {
                                                                    htmlFor=""><GrLocation/></label>
                                                         </div>
 
-                                                        <div className="col-11">
+                                                        <div className="col-10">
                                                             <input
                                                                 className="w-100 h-100"
-                                                                type="date"
+                                                                type="time"
                                                                 style={{
                                                                     borderStyle: "solid",
                                                                     borderWidth: "0"
@@ -246,7 +468,7 @@ const Visualisation = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-6 ">
+                                            <div className="col-12 col-md-6 ">
 
                                                 <div className="my-2"
                                                      style={{
@@ -255,14 +477,10 @@ const Visualisation = () => {
                                                          color: "#1A1A1A"
                                                      }}
                                                 >
-                                                    End Date
+                                                    End Time
                                                 </div>
 
-                                                <div className="bg-white"
-                                                     style={{
-                                                         borderRadius: "13px",
-                                                         boxShadow: "0px 4px 10px rgba(254, 189, 160, 0.2)"
-                                                     }}>
+                                                <div className="bg-white theme-border">
                                                     <div className="input-group m-0 row">
                                                         <div
                                                             className="input-group-prepend col-1 d-flex align-items-center justify-content-center"
@@ -271,10 +489,10 @@ const Visualisation = () => {
                                                                    htmlFor=""><GrLocation/></label>
                                                         </div>
 
-                                                        <div className="col-11">
+                                                        <div className="col-10">
                                                             <input
                                                                 className="w-100 h-100"
-                                                                type="date"
+                                                                type="time"
                                                                 style={{
                                                                     borderStyle: "solid",
                                                                     borderWidth: "0"
@@ -300,10 +518,9 @@ const Visualisation = () => {
                                              }}
                                         >
                                             Radius
-                                            <span className="mx-2" style={{
+                                            <span className="mx-2 theme-lightBlue-text" style={{
                                                 fontWeight: "400",
                                                 fontSize: "14px",
-                                                color: "#FEBDA0"
                                             }}>
                                                 Size of the scanned area
                                         </span>
@@ -317,31 +534,34 @@ const Visualisation = () => {
                                         {/* --------- buttons --------*/}
                                         <div className="col-12 my-5">
                                             <div className="row">
-                                                <button className="btn btn-light w-auto"
-                                                        style={{
-                                                            backgroundColor: "#fff",
-                                                            boxShadow: "0px 4px 10px rgba(254, 189, 160, 0.4)",
-                                                            height: "53px"
-                                                        }}>
-                                                    <RiFileSearchLine/> Use Exported Data
-                                                </button>
-                                                <div className="btn-group w-auto">
-                                                    <button type="button" className="btn  dropdown-toggle"
+
+                                                <div className="p-2 col-12 col-md-6">
+                                                    <motion.div className="btn btn-light col-12 d-flex align-items-center justify-content-center"
+                                                                whileTap = {{scale:0.95}}
+                                                            style={{
+                                                                backgroundColor: "#fff",
+                                                                borderStyle: "solid",
+                                                                borderColor: "#000",
+                                                                borderWidth: "1px",
+                                                                height: "53px",
+                                                                borderRadius: "13px"
+                                                            }}>
+                                                        <RiFileSearchLine/> Use Exported Data
+                                                    </motion.div>
+
+                                                </div>
+                                                <div className="p-2 col-12 col-md-6">
+                                                    <motion.div type="button"
+                                                                whileTap={{scale:0.95}}
+                                                            className="btn theme-lightBlue-button dropdown-toggle col-12 d-flex align-items-center justify-content-center"
                                                             data-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false"
                                                             style={{
-                                                                backgroundColor: " #FEBDA0",
-                                                                color: "#fff"
-                                                            }}>
+                                                                height: "53px",
+                                                            }}
+                                                    >
                                                         <snap><BsThreeDots/> Advanced</snap>
-                                                    </button>
-                                                    <div className="dropdown-menu">
-                                                        <a className="dropdown-item" href="#">Action</a>
-                                                        <a className="dropdown-item" href="#">Another action</a>
-                                                        <a className="dropdown-item" href="#">Something else here</a>
-                                                        <div className="dropdown-divider"></div>
-                                                        <a className="dropdown-item" href="#">Separated link</a>
-                                                    </div>
+                                                    </motion.div>
                                                 </div>
                                             </div>
 
@@ -351,57 +571,90 @@ const Visualisation = () => {
                             </div>
                         </div>
 
-                        <div className="col-6  p-2 justify-content-center">
-                            <div className=" p-1 d-flex justify-content-center ">
-                                <div className="bg-white col-10"
-                                     style={{
-                                         borderRadius: "22px",
-                                         height: "500px",
-                                         width: "500px",
-                                         boxShadow: "0px 4px 10px rgba(254, 189, 160, 0.2)"
-                                     }}
-                                >
-                                    <div className=" w-100 h-100 d-flex justify-content-center align-items-center"
+                        <div className="col-12 col-lg-7 p-2 justify-content-center">
+                            <div className="row">
+                                <div className=" p-1 d-flex justify-content-center ">
+                                    <div className="bg-white col-11 theme-border "
                                          style={{
-                                             fontSize: "26px",
-                                             fontWeight: "400",
-                                             color: "#FEBDA0"
-                                         }}>
-                                        Visualisation
+                                             minHeight: "400px"
+                                         }}
+                                    >
+                                        <motion.div
+                                            className=" w-100 h-100 d-flex justify-content-center align-items-center"
+                                            style={{
+                                                fontSize: "26px",
+                                                fontWeight: "400",
+                                            }}>
+                                            {
+                                                isLoadingImage ?
+                                                    <RevolvingDot
+                                                        height="100"
+                                                        width="100"
+                                                        radius="6"
+                                                        color="#0088CA"
+                                                        secondaryColor='blue'
+                                                        ariaLabel="revolving-dot-loading"
+                                                        radius="5"
+                                                        wrapperStyle={{}}
+                                                        wrapperClass=""
+                                                        visible={isLoadingImage}
+                                                    />
+                                                    :
+                                                    <div>
+                                                        {isErrorImageLoading?
+                                                                <div style={{
+                                                                    color:"red",
+                                                                    fontSize:"10px"
+                                                                }}>
+                                                                    {visulizationText}
+                                                                </div>
+                                                                :
+                                                                <div className="theme-lightBlue-text">
+                                                                    {visulizationText}
+                                                                </div>
+                                                        }
+
+                                                    </div>
+                                            }
+                                        </motion.div>
+
                                     </div>
 
                                 </div>
-
-                            </div>
-                            <div className=" row d-flex justify-content-between py-4 px-4">
-                                <div className="col-6 d-flex justify-content-between">
-                                    <button className="btn col m-2" style={{
-                                        backgroundColor:"#FEBDA0",
-                                        color:"#fff",
-                                        borderRadius:"13px"
+                                <div className=" col-12 col-lg-7 d-flex justify-content-center">
+                                    <motion.div
+                                        whileTap={{scale: 0.95}}
+                                        className="btn theme-lightBlue-button col my-2 mx-1" style={{
+                                        borderRadius: "13px"
                                     }}>
                                         Satellite
-                                    </button>
-                                    <button className="btn col m-2" style={{
-                                        backgroundColor:"#fff",
-                                        color:"#FEBDA0",
-                                        borderRadius:"13px",
-                                        boxShadow: "0px 4px 4px rgba(254, 189, 160, 0.2)"
+                                    </motion.div>
+                                    <motion.div
+                                        whileTap={{scale: 0.95}}
+                                        className="btn theme-lightBlue-button2 col my-2 mx-1" style={{
+                                        borderRadius: "13px",
                                     }}>
                                         Aircraft
-                                    </button>
+                                    </motion.div>
 
-                                    <button className="btn col m-2" style={{
-                                        backgroundColor:"#fff",
-                                        color:"#FEBDA0",
-                                        borderRadius:"13px",
-                                        boxShadow: "0px 4px 4px rgba(254, 189, 160, 0.2)"
-                                    }}>
+                                    <motion.div
+                                        whileTap={{scale: 0.95}}
+                                        className="btn col my-2 theme-lightBlue-button2 mx-1">
                                         Aircraft
-                                    </button>
+                                    </motion.div>
                                 </div>
-                                <div className="col-6">
-                                    <button className="col btn btn-dark"></button>
+                                <div className="d-flex justify-content-center col-12 col-lg-5 ">
+                                    <motion.div
+                                        whileTap={{scale: 0.95}}
+                                        type="button"
+                                        className="btn btn-dark dropdown-toggle h-100 col-5 col-lg-12 py-3"
+                                        data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false"
+                                        style={{
+                                            borderRadius: "13px"
+                                        }}>
+                                        <snap><FiDownload/> Export Data</snap>
+                                    </motion.div>
                                 </div>
                             </div>
                         </div>

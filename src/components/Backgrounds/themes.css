@@ -1,0 +1,41 @@
+.theme-lightBlue-text{
+    color:#0088CA;
+}
+
+.theme-lightBlue-button{
+    background: #0088CA;
+    color: #ffffff;
+    border-radius: 13px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #0088CA;
+}
+
+.theme-lightBlue-button:hover{
+    background: #ffffff;
+    color: #0088CA;
+    border-width: 1px;
+}
+
+.theme-lightBlue-button2{
+    background: #ffffff;
+    color: #0088CA;
+    border-style: solid;
+    border-color: #0088CA;
+    border-width: 1px;
+    border-radius: 13px;
+}
+
+.theme-lightBlue-button2:hover{
+    background: #0088CA;
+    color: #ffffff;
+}
+
+.theme-border{
+    border-radius: 13px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #000000;
+}
+
+

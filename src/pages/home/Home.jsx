@@ -2,7 +2,7 @@ import React from "react"
 import {Link} from "react-router-dom";
 import {AiFillCaretRight} from "react-icons/ai";
 import {RiFileSearchLine} from "react-icons/ri";
-import Gradient from "../../components/Backgrounds/Gradient";
+import "../../components/Backgrounds/themes.css"
 import BgImg1 from "../../components/Backgrounds/BgImg1";
 
 const Home = () => {
@@ -15,7 +15,7 @@ const Home = () => {
                         <span style={{fontSize: "40px", color:"", fontWeight:"400"}}>Welcome</span>
                     </div>
                     <div className=" p-0">
-                        <span style={{color:"#FEBDA0", fontSize:"26px", fontWeight:"400"}}> Select to visualise</span>
+                        <span className="theme-lightBlue-text" style={{ fontSize:"26px", fontWeight:"400"}}> Select to visualise</span>
                     </div>
 
                     <div className="py-4 my-3 d-flex justify-content-between" style={{fontWeight:"400", fontSize:"18px"}}>
@@ -31,6 +31,9 @@ const Home = () => {
 
             <Link to="/visualisation">
                 <button>vis</button>
+            </Link>
+            <Link to="/help">
+                <button>help</button>
             </Link>
         </div>
     )
